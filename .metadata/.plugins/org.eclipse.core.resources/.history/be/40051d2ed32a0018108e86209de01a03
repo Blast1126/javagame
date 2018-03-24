@@ -1,0 +1,83 @@
+package com.tina.time;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+
+public class Boss extends Gameobject {
+
+private int health;
+private int timer1 ;
+private int timer2;
+private Handler handler;
+private Storage storage ;
+
+	public Boss(int x, int y ,ID id ,int health,Handler handler ,Storage storage ) {
+	
+	super(x,y,id);
+	this.health=health;
+	this.handler=handler;
+	this.storage=storage;
+	velx=3;
+	}
+
+	@Override
+	public void update() {
+	
+	x+=velx;
+		if(x>=Game.width-32||x<=0){
+		velx*=-1;
+		velx*=0.2;
+		
+		}
+		
+		
+		if(timer1>=0){
+			timer1--;
+		}
+		
+		if(timer1<=0){
+			handler.addobject(new Ebullets(x,y,ID.normalbullets));
+			timer1+=300;}
+		
+
+		
+		collided();
+		
+	}
+	
+	
+
+	
+	@Override
+	public void render(Graphics g) {
+
+	g.setColor(Color.BLUE);
+	g.fillRect(x, y, 100, 100);
+		
+	}
+
+	@Override
+	public Rectangle collision() {
+		// TODO Auto-generated method stub
+		return new Rectangle(x,y,100,100);
+	}
+
+    private void collided(){
+    	
+    	for(int x=0;x<handler.object.size();x++){
+
+    	Gameobject tempobject=handler.object.get(x);
+
+    	if(tempobject.getId()==ID.bullet){
+
+    	if(tempobject.collision().intersects(this.collision())){
+    		handler.removeobject(tempobject);
+    		health-=20;
+
+    			}
+    		}
+    	}
+    }
+
+}

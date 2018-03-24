@@ -1,0 +1,8 @@
+package com.tina.time;
+
+public enum Gamestate {
+
+menu(),
+game(),
+gameover();
+}

@@ -1,0 +1,82 @@
+package com.tina.time;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+
+public class Storage  {
+
+public int ammon=1;
+public int health=90;
+public int score=0 ;
+public int Cubehealth=20;
+public int normalehealth=20;
+private int check;
+private int level=0;
+private Handler handler;
+private Box box; 
+
+public Storage(Handler handler,Box box  ){
+	
+	this.handler=handler;
+	this.box=box;
+
+}
+public void renderhealth(Graphics g){
+  
+  g.setColor(Color.red);
+  g.fillRect(30, 30, 180, 50);
+  g.setColor(Color.GREEN);
+  g.fillRect(30, 30, health*2, 50);
+  g.drawRect(30, 30, 180, 50);
+ // g.drawString(Integer.toString(ammon), 50,100);
+  g.drawString(" your level",50,100);
+  g.drawString(Integer.toString(level), 115,100);
+  }
+
+public void Loadlevel(){ 
+	
+	
+  
+    if(check==0){
+    	handler.addobject(new normalenemy(500,100,ID.normalenemy,handler,this,20));
+    	handler.addobject(new normalenemy(200,200,ID.normalenemy,handler,this,20));
+    	handler.addobject(new normalenemy(0,0,ID.normalenemy,handler,this,20));
+    	handler.addobject(new normalenemy(700,0,ID.normalenemy,handler,this,20));
+    	
+    	check++;
+    	level++;
+    	
+    }
+    
+    if(check==1&&score==40){
+    	handler.addobject(new Magician(200,200,ID.Magician,handler,this,100));
+    	check++;
+    	level++;
+    }
+    
+    if(check==2&&score==50){
+      handler.addobject(new Enemy4(1300,300,ID.Enemy4,handler,this,60));
+      handler.addobject(new Enemy4(1100,0,ID.Enemy4,handler,this,60));
+      check++;
+      level++;
+    }
+    
+    if(check==3&&score==70){
+    	handler.addobject(new Cubenemy(200,200,ID.cubenemy,handler,this,200));
+    	check++;
+    	level++;
+    }
+    
+    
+    
+	
+
+
+   
+
+}
+}
+	
+//}
+

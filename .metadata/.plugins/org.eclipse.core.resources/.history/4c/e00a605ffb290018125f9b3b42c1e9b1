@@ -1,0 +1,124 @@
+package com.tina.time;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class Box  extends Gameobject{
+private Handler handler; 
+
+private Storage storage;
+public Queue<Float> xQueue = new LinkedList<Float>();
+public Queue<Float> yQueue = new LinkedList<Float>();
+
+
+	public Box(int x,int y,ID id,Handler handler,Storage storage  ) {
+		
+		super(x,y,id);
+	    this.handler=handler;
+	    this.storage=storage;
+	    //xQueue.add(velx);
+		//yQueue.add(vely);
+	    
+	}
+
+	@Override
+	
+	public void update() {
+		x+=velx;//x=x+velx
+		y+=vely;//x=x+vely
+		
+		
+		if(handler.isRight()){velx=12;
+		}
+		else if(!handler.isLeft()){
+			velx=0;
+		}
+		
+		if(handler.isLeft()){
+			velx=-12;
+		}
+		else if(!handler.isRight()){
+			velx=0;
+		}
+		
+		if(handler.isUp()){
+			vely=-12;
+		}
+		
+		else if(!handler.isDown()){
+			vely=0;
+		}
+		
+		if(handler.isDown()){
+			vely=12;
+		}
+		else if(!handler.isUp()){
+			vely=0;
+		}				
+		
+	  if(y<0){	
+		  y=0;
+	  }
+	  
+	  if(y>=Game.height-32){
+		 y=Game.height-32; 
+	  }
+	  
+	  if(x<0){
+		  x=0;
+	  }
+	  if(x>=Game.width-32){
+		  x=Game.width-32;
+	  }	 
+	  
+	enemycollision();
+
+	}
+
+	
+	private void enemycollision(){
+		
+		for(int x=0;x<handler.object.size();x++){
+
+		Gameobject tempobject=handler.object.get(x);
+
+		   	
+		
+		if(tempobject.getId()==ID.normalbullets){
+	     if(this.collision().intersects(tempobject.collision())){
+	    	 
+	    	 handler.removeobject(tempobject);
+	    	 
+	    	 
+	     }
+		}
+			
+		if(tempobject.getId()==ID.bulletenemy){
+	     if(this.collision().intersects(tempobject.collision())){
+	    	 
+	    	 handler.removeobject(tempobject);
+	    	 
+	    	 
+	     }
+		}
+		
+		}
+	}
+	@Override
+	public void render(Graphics g) {
+		
+		g.setColor(Color.BLUE);
+		g.fillRect(x, y, 42, 42);
+		
+	}
+
+	@Override
+	public Rectangle collision() {
+		// TODO Auto-generated method stub
+		return new Rectangle(x,y,42,42);
+	}
+
+}
